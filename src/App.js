@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from "react"
+import { Routes, Route, Link } from "react-router-dom"
+import LoginPage from "./pages/LoginPage"
+import ThemeToggle from "./components/ThemeToggle"
+import DashboardPage from "./pages/DashboardPage"
+import NotFoundPage from "./pages/ErrorPage"
+import DailyNote from "./components/DailyNote"
+import DailyIntrospection from "./components/DailyIntrospection"
+import moment from "moment"
+import UserProfilePage from "./pages/UserProfilePage"
+import QuestionListingPage from "./pages/QuestionListingPage"
 
 function App() {
+  const [currentTime, setCurrentTime] = useState(
+    moment().format("MMMM Do YYYY, h:mm:ss a")
+  )
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(moment().format("MMMM Do YYYY, h:mm:ss a"))
+    }, 1000)
+
+    return () => clearInterval(timer) // Clear interval on component unmount
+  }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="p-4">
+      <div className="absolute top-2 left-4">{currentTime}</div>
+      <ThemeToggle />
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/dailynote" element={<DailyNote />} />
+        <Route path="/dailyintrospection" element={<DailyIntrospection />} />
+        <Route path="/userprofile" element={<UserProfilePage />} />
+        <Route path="/questionlisting" element={<QuestionListingPage />} />
+
+        <Route path="/*" element={<NotFoundPage />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
