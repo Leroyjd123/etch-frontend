@@ -20,9 +20,10 @@ const QuestionPopup = ({ question, onClose }) => {
         options: question.options?.join(", ") || "",
         tags: question.tags?.join(", ") || "",
       }
-    : { name: "", label: "", inputType: "", options: "", tags: "" }
+    : { order: "", name: "", label: "", inputType: "", options: "", tags: "" }
 
   const validationSchema = Yup.object().shape({
+    order: Yup.number().required("Question order is required"),
     name: Yup.string().required("Question name is required"),
     label: Yup.string().required("Question is required"),
     inputType: Yup.string().required("Input type is required"),
@@ -64,10 +65,10 @@ const QuestionPopup = ({ question, onClose }) => {
       }
 
       if (isEditMode) {
-        console.log("Editing question:", formattedValues)
+        //console.log("Editing question:", formattedValues)
         dispatch(asyncEditQuestion(formattedValues))
       } else {
-        console.log("Adding new question:", formattedValues)
+        //console.log("Adding new question:", formattedValues)
         dispatch(asyncAddQuestion(formattedValues))
       }
       onClose()
@@ -94,6 +95,7 @@ const QuestionPopup = ({ question, onClose }) => {
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">
+              <InputForm name="order" label="order" type="number" />
               <InputForm name="name" label="name" type="text" />
               <InputForm name="label" label="label" type="text" />
               <SelectForm

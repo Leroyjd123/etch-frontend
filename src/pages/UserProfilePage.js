@@ -72,6 +72,7 @@ const UserProfilePage = () => {
             <Form className="space-y-4">
               <InputForm name="firstName" label="First Name" type="text" />
               <InputForm name="lastName" label="Last Name" type="text" />
+
               <InputForm
                 name="emailAddress"
                 label="Email Address"

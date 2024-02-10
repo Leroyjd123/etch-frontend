@@ -20,6 +20,7 @@ const QuestionRow = ({ question, i, onEdit }) => {
     <>
       <tr className="hover" key={question._id}>
         <td>{++i}</td>
+        <td>{question.order}</td>
         <td>{question.name}</td>
         <td>{question.label}</td>
         <td>{question.inputType}</td>

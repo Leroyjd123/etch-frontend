@@ -1,6 +1,6 @@
 import { Field, ErrorMessage } from "formik"
 
-const InputForm = ({ name, label, type, disabled }) => {
+const InputForm = ({ name, label, type, disabled}) => {
   return (
     <div>
       <label htmlFor={name} className="block font-medium mb-2">

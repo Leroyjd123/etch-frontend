@@ -9,6 +9,8 @@ import DailyIntrospection from "./components/DailyIntrospection"
 import moment from "moment"
 import UserProfilePage from "./pages/UserProfilePage"
 import QuestionListingPage from "./pages/QuestionListingPage"
+import AnswerListingPage from "./pages/AnswerListingPage"
+
 
 function App() {
   const [currentTime, setCurrentTime] = useState(
@@ -34,6 +36,7 @@ function App() {
         <Route path="/dailyintrospection" element={<DailyIntrospection />} />
         <Route path="/userprofile" element={<UserProfilePage />} />
         <Route path="/questionlisting" element={<QuestionListingPage />} />
+        <Route path="/answerlisting" element={<AnswerListingPage />} />
 
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>

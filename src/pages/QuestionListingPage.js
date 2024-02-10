@@ -42,6 +42,7 @@ const QuestionListingPage = () => {
         <thead>
           <tr>
             <th>#</th>
+            <th>Order</th>
             <th>Name</th>
             <th>Question</th>
             <th>Input Type</th>

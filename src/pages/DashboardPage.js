@@ -11,13 +11,23 @@ const DashboardPage = () => {
     dispatch(asyncSetUser())
     dispatch(asyncSetQuestions())
     console.log("refreshed")
-  },[])
+  }, [])
 
   return (
     <div>
       <Navbar />
-      <div className="m-5 flex flex-col md:flex-row justify-center items-center">
-        <AddNote />
+      <div className="m-5 flex flex-col md:flex-row justify-center items-center gap-3">
+        <AddNote
+          header="Ready to note down your day?"
+          link="/dailynote"
+          buttonText="Note Down Now!"
+        />
+
+        <AddNote
+          header="Ready to introspect?"
+          link="/dailyintrospection"
+          buttonText="Introspect Now!"
+        />
       </div>
     </div>
   )
