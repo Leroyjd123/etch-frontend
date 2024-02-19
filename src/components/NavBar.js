@@ -33,6 +33,9 @@ function Navbar() {
             <Link to="/answerlisting">Answers Listing</Link>
           </li>
           <li>
+            <Link to="/metrics">Metrics</Link>
+          </li>
+          <li>
             <Link to="/questionlisting">Question Listing</Link>
           </li>
           <li>

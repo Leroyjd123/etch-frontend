@@ -10,6 +10,7 @@ import moment from "moment"
 import UserProfilePage from "./pages/UserProfilePage"
 import QuestionListingPage from "./pages/QuestionListingPage"
 import AnswerListingPage from "./pages/AnswerListingPage"
+import MetricsPage from "./pages/MetricsPage"
 
 
 function App() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/userprofile" element={<UserProfilePage />} />
         <Route path="/questionlisting" element={<QuestionListingPage />} />
         <Route path="/answerlisting" element={<AnswerListingPage />} />
+        <Route path="/metrics" element={<MetricsPage />} />
 
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>

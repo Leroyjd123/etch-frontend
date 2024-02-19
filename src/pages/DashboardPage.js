@@ -4,6 +4,7 @@ import Navbar from "../components/NavBar"
 import { asyncSetUser } from "../actions/userActions"
 import { asyncSetQuestions } from "../actions/questionsActions"
 import { useDispatch } from "react-redux"
+import QuoteCard from "../components/QuoteCard"
 
 const DashboardPage = () => {
   const dispatch = useDispatch()
@@ -16,6 +17,8 @@ const DashboardPage = () => {
   return (
     <div>
       <Navbar />
+      <QuoteCard className="m-5 flex flex-col md:flex-row justify-center items-center gap-3"/>
+
       <div className="m-5 flex flex-col md:flex-row justify-center items-center gap-3">
         <AddNote
           header="Ready to note down your day?"

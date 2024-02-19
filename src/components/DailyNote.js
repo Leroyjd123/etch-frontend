@@ -55,7 +55,7 @@ const DailyNote = () => {
           return [
             {
               questionID: key,
-              entries: value.trim(),
+              entries: [value.trim()],
             },
           ]
         } else {
@@ -70,6 +70,8 @@ const DailyNote = () => {
     } else {
       //console.log("working")
       dispatch(asyncAddAnswers(formValues))
+      alert("Your daily note has been saved!")
+      navigate("/dashboard")
     }
   }
 

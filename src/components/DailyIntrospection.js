@@ -74,7 +74,7 @@ const DailyIntrospection = () => {
           return [
             {
               questionID: key,
-              entries: value.trim(),
+              entries: [value.trim()],
             },
           ]
         } else {
@@ -87,10 +87,11 @@ const DailyIntrospection = () => {
     if (formValues.entryList.length === 0) {
       alert("Please answer atleast one question!")
     } else {
-      console.log("working")
+      console.log("working", formValues)
       dispatch(asyncAddAnswers(formValues))
+      alert("Your introspection has been saved!")
+      navigate("/dashboard")
     }
-    // navigate("/dashboard")
   }
 
   return (

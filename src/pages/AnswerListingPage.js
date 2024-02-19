@@ -45,7 +45,7 @@ const AnswerListingPage = () => {
             <thead>
               <tr>
                 <th>#</th>
-                <th>Question ID</th>
+                <th>Question</th>
                 <th>Entries</th>
                 <th>Date</th>
                 <th>Tags</th>
