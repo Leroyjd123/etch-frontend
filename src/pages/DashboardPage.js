@@ -17,21 +17,32 @@ const DashboardPage = () => {
   return (
     <div>
       <Navbar />
-      <QuoteCard className="m-5 flex flex-col md:flex-row justify-center items-center gap-3"/>
+      <>
+        <QuoteCard />
 
-      <div className="m-5 flex flex-col md:flex-row justify-center items-center gap-3">
-        <AddNote
-          header="Ready to note down your day?"
-          link="/dailynote"
-          buttonText="Note Down Now!"
-        />
+        <div className="m-5 flex flex-col md:flex-row justify-center items-center gap-3 ">
+          <AddNote
+            header="Got a Quick Thought?"
+            link="/quicknote"
+            buttonText="Add Note"
+            description="Capture fleeting ideas, to-dos, or any spark of inspiration in a moment. Perfect for when you're on the go."
+          />
 
-        <AddNote
-          header="Ready to introspect?"
-          link="/dailyintrospection"
-          buttonText="Introspect Now!"
-        />
-      </div>
+          <AddNote
+            header="How was Your Day?"
+            link="/dailynote"
+            buttonText="Add Log"
+            description="Summarize your daily activities, routines, and accomplishments. A simple way to keep track of your day-to-day progress."
+          />
+
+          <AddNote
+            header="Ready for Deep Reflection?"
+            link="/dailyintrospection"
+            buttonText="Start Reflecting"
+            description="Dive deep into your thoughts and experiences. Reflect on your day with guided questions to gain insights and grow."
+          />
+        </div>
+      </>
     </div>
   )
 }

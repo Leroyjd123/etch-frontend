@@ -1,4 +1,4 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form  } from "formik"
 import * as Yup from "yup"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -11,7 +11,7 @@ import CalendarDate from "../tailwindComponents/CalendarDate"
 const DailyNote = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  //  const questions = useSelector((state) => state.questions)
+ 
   const [selectedDate, setSelectedDate] = useState(Date())
   const questions = useSelector((state) => state.questions)
     .filter((question) => question.tags.includes("daily review"))
@@ -78,7 +78,7 @@ const DailyNote = () => {
   return (
     <div className=" flex flex-col md:flex-row">
       <div className="flex-grow p-5 overflow-auto">
-        <p className="text-lg font-semibold">etch down your daily thoughts</p>
+        <p className="text-lg font-semibold">How was Your Day?</p>
 
         <Formik
           initialValues={initialValues}

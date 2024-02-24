@@ -11,7 +11,9 @@ import UserProfilePage from "./pages/UserProfilePage"
 import QuestionListingPage from "./pages/QuestionListingPage"
 import AnswerListingPage from "./pages/AnswerListingPage"
 import MetricsPage from "./pages/MetricsPage"
-
+import Success from "./pages/SuccessPage"
+import Cancel from "./pages/CancelPage"
+import PaymentPage from "./components/PaymentPage"
 
 function App() {
   const [currentTime, setCurrentTime] = useState(
@@ -39,6 +41,10 @@ function App() {
         <Route path="/questionlisting" element={<QuestionListingPage />} />
         <Route path="/answerlisting" element={<AnswerListingPage />} />
         <Route path="/metrics" element={<MetricsPage />} />
+
+        <Route path="/success" element={<Success />} />
+        <Route path="/cancel" element={<Cancel />} />
+        <Route path="/payment" element={<PaymentPage />} />
 
         <Route path="/*" element={<NotFoundPage />} />
       </Routes>

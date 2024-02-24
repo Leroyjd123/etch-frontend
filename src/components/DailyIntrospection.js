@@ -1,6 +1,6 @@
-import { Formik, Form, Field, ErrorMessage } from "formik"
+import { Formik, Form } from "formik"
 import * as Yup from "yup"
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 import { useSelector, useDispatch } from "react-redux"
@@ -13,9 +13,9 @@ const DailyIntrospection = () => {
   const dispatch = useDispatch()
   const [selectedDate, setSelectedDate] = useState(Date())
 
-  const questionList = useSelector((state) => state.questions).filter(
-    (question) => !question.tags.includes("daily review")
-  )
+  const questionList = useSelector((state) => state.questions)
+    .filter((question) => !question.tags.includes("daily review"))
+    .sort((a, b) => a.order - b.order)
 
   const [questions, setQuestions] = useState(
     questionList.sort(() => 0.5 - Math.random()).slice(0, 3)
@@ -34,31 +34,34 @@ const DailyIntrospection = () => {
       return schema
     }, {})
   )
-
   const addQuestion = () => {
-    if (user.userType == "subscribedUser") {
-      console.log(user.userType)
-      const newQuestion = questionList
-        .filter((question) => !questions.includes(question))
-        .sort(() => 0.5 - Math.random())[1]
-
-      setQuestions([...questions, newQuestion])
-    } else {
-      alert("please purchase")
+    if (user.userType !== "subscribedUser") {
+      alert("Please purchase a subscription to add more questions.")
+      return
     }
+
+    // Filter questions that are not already in the current list
+    const availableQuestions = questionList.filter(
+      (question) => !questions.find((q) => q._id === question._id)
+    )
+
+    // Check if there are available questions to add
+    if (availableQuestions.length === 0) {
+      alert("There are no more questions to add.")
+      return
+    }
+
+    // Pick a random question from the available ones
+    const newQuestionIndex = Math.floor(
+      Math.random() * availableQuestions.length
+    )
+    const newQuestion = availableQuestions[newQuestionIndex]
+
+    // Update the state with the new question
+    setQuestions([...questions, newQuestion])
   }
 
   const handleSubmit = async (values) => {
-    // console.log(values)
-    // const formedValues = {
-    //   date: new Date(selectedDate),
-    //   entryList: Object.keys(values).map((key) => ({
-    //     questionID: key,
-    //     entries: values[key],
-    //   })),
-    // }
-    // console.log("Map", formedValues)
-
     const formValues = {
       date: new Date(selectedDate),
       entryList: Object.keys(values).flatMap((key) => {

@@ -25,13 +25,17 @@ const QuoteCard = () => {
 
   return (
     <div>
-      <div className="justify-center items-center card  bg-base-100 shadow-xl">
+      <div className="w-96 mx-auto flex  gap-3 justify-center items-center card  bg-base-100 shadow-xl">
         <div className="card-body">
-          <h2 className="card-title">Think about it!</h2>
-          <p>{quote.quoteText}</p>
-          <p> {quote.quoteAuthor}</p>
-          <div className="card-actions justify-end">
-            <div className="badge badge-outline"> {quote.quoteGenre}</div>
+          <h2 className="justify-center items-center card-title">
+            Pause for thought!
+          </h2>
+          <p className="text-center w-full mb-4"> {quote.quoteText}</p>
+          <div className="flex items-center">
+            <p className="text-sm italic"> {quote.quoteAuthor}</p>
+            <div className="card-actions justify-end">
+              <div className="badge badge-outline p-3 ">{quote.quoteGenre}</div>
+            </div>
           </div>
         </div>
       </div>
