@@ -8,7 +8,7 @@ const CalendarDate = ({ onChange, value, type }) => {
   return (
     <>
       {type === "calendar" ? (
-        <Calendar showWeekNumbers={true} onChange={onChange} value={value} />
+        <Calendar className="mx-auto rounded-2xl" showWeekNumbers={true} onChange={onChange} value={value} />
       ) : (
         <DatePicker onChange={onChange} value={value} />
       )}

@@ -1,11 +1,10 @@
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector } from "react-redux"
 import { useState } from "react"
 
 import QuestionPopup from "../components/QuestionPopup"
 import QuestionRow from "./QuestionRow"
 
 const QuestionListingPage = () => {
-  const dispatch = useDispatch()
   const questions = useSelector((state) => state.questions)
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -16,52 +15,71 @@ const QuestionListingPage = () => {
   }
 
   const addQuestion = () => {
-    setSelectedQuestion(null)
+    setSelectedQuestion(null) 
     setIsModalOpen(true)
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
-  }
+      }
 
   return (
     <>
-      <button className="btn" onClick={addQuestion}>
+        <h1 className="text-lg font-semibold">Question Listing</h1>
+      <button className="btn hidden md:inline-block" onClick={addQuestion}>
         Add Question
       </button>
 
       {isModalOpen && (
-        <dialog id="questionModal" className="modal" open>
-          <div className="modal-box">
-            <QuestionPopup question={selectedQuestion} onClose={closeModal} />
-          </div>
-        </dialog>
+        <QuestionPopup question={selectedQuestion} onClose={closeModal} />
       )}
 
-      <table className="table table-zebra">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Order</th>
-            <th>Name</th>
-            <th>Question</th>
-            <th>Input Type</th>
-            <th>Options</th>
-            <th>Tags</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {questions.map((question, i) => (
-            <QuestionRow
-              key={question._id}
-              question={question}
-              i={i}
-              onEdit={handleEdit}
-            />
-          ))}
-        </tbody>
-      </table>
+      <div className="hidden md:block">
+        <table className="table table-zebra">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Order</th>
+              <th>Name</th>
+              <th>Question</th>
+              <th>Input Type</th>
+              <th>Options</th>
+              <th>Tags</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {questions.map((question, index) => (
+              <QuestionRow
+                key={question._id}
+                question={question}
+                index={index}
+                onEdit={handleEdit}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="md:hidden">
+        {questions.map((question, index) => (
+          <div key={question._id} className="collapse collapse-plus mb-2">
+            <input type="checkbox" className="peer" />
+            <div className="collapse-title bg-white">
+              {++index}. {question.name}
+            </div>
+            <div className=" collapse-content bg-white gap-2">
+              <p className="text-sm mb-2">{question.label}</p>
+              <div className="flex flex-wrap gap-2">
+                {question.tags.map((tag, tagIndex) => (
+                  <span key={tagIndex} className="badge badge-outline">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { Formik, Form  } from "formik"
+import { Formik, Form } from "formik"
 import * as Yup from "yup"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -11,11 +11,15 @@ import CalendarDate from "../tailwindComponents/CalendarDate"
 const DailyNote = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
- 
+
+  const user = useSelector((state) => state.user)
   const [selectedDate, setSelectedDate] = useState(Date())
-  const questions = useSelector((state) => state.questions)
+
+  const questionList = useSelector((state) => state.questions)
     .filter((question) => question.tags.includes("daily review"))
     .sort((a, b) => a.order - b.order)
+
+  const [questions, setQuestions] = useState(questionList.slice(0, 3))
 
   const initialValues = questions.reduce((values, question) => {
     values[question._id] = question.inputType === "checkbox" ? [] : ""
@@ -29,17 +33,34 @@ const DailyNote = () => {
     }, {})
   )
 
-  const handleSubmit = async (values) => {
-    // console.log(values)
-    // const formedValues = {
-    //   date: new Date(selectedDate),
-    //   entryList: Object.keys(values).map((key) => ({
-    //     questionID: key,
-    //     entries: values[key],
-    //   })),
-    // }
-    // console.log("Map", formedValues)
+  const addQuestion = () => {
+    if (user.userType !== "subscribedUser") {
+      alert("Please purchase a subscription to add more questions.")
+      return
+    }
 
+    // Filter questions that are not already in the current list
+    const availableQuestions = questionList.filter(
+      (question) => !questions.find((q) => q._id === question._id)
+    )
+
+    // Check if there are available questions to add
+    if (availableQuestions.length === 0) {
+      alert("There are no more questions to add.")
+      return
+    }
+
+    // Pick a random question from the available ones
+    const newQuestionIndex = Math.floor(
+      Math.random() * availableQuestions.length
+    )
+    const newQuestion = availableQuestions[newQuestionIndex]
+
+    // Update the state with the new question
+    setQuestions([...questions, newQuestion])
+  }
+
+  const handleSubmit = async (values) => {
     const formValues = {
       date: new Date(selectedDate),
       entryList: Object.keys(values).flatMap((key) => {
@@ -63,12 +84,10 @@ const DailyNote = () => {
         }
       }),
     }
-    //console.log("FlatMap", formValues)
 
     if (formValues.entryList.length === 0) {
       alert("Please answer atleast one question!")
     } else {
-      //console.log("working")
       dispatch(asyncAddAnswers(formValues))
       alert("Your daily note has been saved!")
       navigate("/dashboard")
@@ -99,6 +118,17 @@ const DailyNote = () => {
               {questions.map((question, i) => (
                 <QuestionForm question={question} key={i} />
               ))}
+
+              <div className="grid ">
+                <button
+                  onClick={addQuestion}
+                  type="button"
+                  className="btn w-full"
+                >
+                  Add More Question
+                </button>
+              </div>
+
               <div className="grid">
                 <button type="submit" className="btn w-full">
                   Save Note

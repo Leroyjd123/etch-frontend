@@ -5,8 +5,15 @@ const CalendarChart = ({ data }) => {
   const startDate = moment().format("YYYY-01-01")
   const endDate = moment().format("YYYY-12-31")
 
+  const containerStyle = {
+    display: "flex",
+    justifyContent: "center",
+    width: "90vw",
+    height: "35vh",
+  }
+
   return (
-    <div className="" style={{ height: 200, width: 1000 }}>
+    <div style={containerStyle}>
       <ResponsiveCalendar
         data={data}
         from={startDate}

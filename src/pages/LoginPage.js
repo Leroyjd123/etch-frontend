@@ -31,7 +31,6 @@ const LoginPage = () => {
       setLoginStatus("success")
 
       localStorage.setItem("token", response.data.token)
-
       navigate("/dashboard")
       dispatch(asyncSetUser())
       dispatch(asyncSetQuestions())

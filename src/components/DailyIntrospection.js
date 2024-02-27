@@ -34,6 +34,7 @@ const DailyIntrospection = () => {
       return schema
     }, {})
   )
+  
   const addQuestion = () => {
     if (user.userType !== "subscribedUser") {
       alert("Please purchase a subscription to add more questions.")

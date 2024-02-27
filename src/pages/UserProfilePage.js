@@ -49,16 +49,19 @@ const UserProfilePage = () => {
 
   return (
     <div className="flex flex-col md:flex-row">
-      <div className="flex-grow p-5 overflow-auto">
-        <p className="text-lg font-semibold">User Profile</p>
+      <h1 className="text-lg font-semibold">User Profile</h1>
 
+      <div className="flex-grow p-5 overflow-auto">
         <div className="flex items-center space-x-4 mb-4">
           <img
             src={avatarURL}
             alt="User Avatar"
-            className="w-24 h-24 rounded-full"
+            className="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2"
           />
-          <button className="btn btn-sm" onClick={handleAvatarChange}>
+          <button
+            className="btn btn-primary btn-sm"
+            onClick={handleAvatarChange}
+          >
             Change Avatar
           </button>
         </div>
@@ -82,7 +85,7 @@ const UserProfilePage = () => {
 
               <button
                 type="submit"
-                className="btn w-full"
+                className=" btn btn-primary w-full"
                 disabled={isSubmitting}
               >
                 Save
