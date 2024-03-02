@@ -2,11 +2,15 @@ import { Formik, Form } from "formik"
 import * as Yup from "yup"
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-
 import { useSelector, useDispatch } from "react-redux"
-import QuestionForm from "../tailwindComponents/QuestionForm"
+import QuestionForm from "../formComponents/QuestionForm"
 import { asyncAddAnswers } from "../actions/answersActions"
-import CalendarDate from "../tailwindComponents/CalendarDate"
+import CalendarDate from "../formComponents/CalendarDate"
+import AlertBox from "../formComponents/AlertBox"
+
+/**
+ * A component for creating and submitting journal entries, with questions that can be either fixed or randomized, based on the provided mode and tags.
+ */
 
 const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
   const navigate = useNavigate()
@@ -17,17 +21,15 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
 
   const user = useSelector((state) => state.user)
   const questionList = useSelector((state) => state.questions)
-
   const [questions, setQuestions] = useState([])
 
-  useEffect(() => {
-    let filteredQuestions = questionList
+  const [loginStatus, setLoginStatus] = useState(null)
 
-    if (!randomizeQuestions) {
-      filteredQuestions = filteredQuestions.filter((question) =>
-        question.tags.includes(tagFilter)
-      )
-    }
+  // Filter or randomize questions based on component props
+  useEffect(() => {
+    let filteredQuestions = questionList.filter((question) =>
+      question.tags.includes(tagFilter)
+    )
 
     if (randomizeQuestions) {
       filteredQuestions = [...filteredQuestions].sort(() => 0.5 - Math.random())
@@ -36,18 +38,23 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
     setQuestions(filteredQuestions.slice(0, 3))
   }, [questionList, tagFilter, randomizeQuestions])
 
+  // Setup initial form values
   const initialValues = questions.reduce((values, question) => {
     values[question._id] = question.inputType === "checkbox" ? [] : ""
     return values
   }, {})
 
+  // Define validation schema dynamically based on questions
   const validationSchema = Yup.object(
     questions.reduce((schema, question) => {
-      schema[question.name] = question.validation
+      if (question.validation) {
+        schema[question._id] = question.validation
+      }
       return schema
     }, {})
   )
 
+  // Handle adding more questions
   const addQuestion = () => {
     if (user.userType !== "subscribedUser") {
       alert("Please purchase a subscription to add more questions.")
@@ -71,17 +78,18 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
     }
   }
 
+  // Submit form data
   const handleSubmit = async (values) => {
     const formValues = {
       date: new Date(selectedDate),
       entryList: Object.entries(values).flatMap(([key, value]) => {
         if (Array.isArray(value) && value.some((val) => val.trim() !== "")) {
           return {
-            questionID: key,
+            questionId: key,
             entries: value.filter((val) => val.trim() !== ""),
           }
         } else if (typeof value === "string" && value.trim() !== "") {
-          return { questionID: key, entries: [value.trim()] }
+          return { questionId: key, entries: [value.trim()] }
         }
         return []
       }),
@@ -89,14 +97,16 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
 
     if (formValues.entryList.length > 0) {
       await dispatch(asyncAddAnswers(formValues))
-      alert(
-        mode === "note"
-          ? "Your daily log has been saved!"
-          : "Your daily introspection has been saved!"
-      )
+      // alert(
+      //   mode === "note"
+      //     ? "Your daily log has been saved!"
+      //     : "Your daily introspection has been saved!"
+      // )
+      setLoginStatus("success")
       navigate("/dashboard")
     } else {
-      alert("Please answer at least one question!")
+      setLoginStatus("error")
+      // alert("Please answer at least one question!")
     }
   }
 
@@ -117,7 +127,7 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
             <Form className="space-y-4">
               <CalendarDate
                 type="date"
-                onChange={setSelectedDate}
+                onChange={(date) => setSelectedDate(date)}
                 value={selectedDate}
               />
               {questions.map((question) => (
@@ -131,7 +141,11 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
                 >
                   Add More Questions
                 </button>
-                <button type="submit" className="btn btn-primary w-full">
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                  disabled={isSubmitting}
+                >
                   {mode === "note" ? "Save Log" : "Save Introspection"}
                 </button>
               </div>
@@ -139,6 +153,22 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
           )}
         </Formik>
       </div>
+      {loginStatus === "success" && (
+        <AlertBox
+          type="success"
+          message={
+            mode === "note"
+              ? "Your daily log has been saved!"
+              : "Your daily introspection has been saved!"
+          }
+        />
+      )}
+      {loginStatus === "error" && (
+        <AlertBox
+          type="error"
+          message="Error! Please answer at least one question!"
+        />
+      )}
     </div>
   )
 }

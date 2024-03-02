@@ -1,9 +1,14 @@
-import { Field, ErrorMessage } from "formik"
+import { Field } from "formik"
+import ErrorForm from "./ErrorForm"
 
-const SelectForm = ({ name, label, options, disabled }) => {
+/**
+ * Renders a select input field within a form using Formik for state management.
+ */
+
+const SelectForm = ({ name, label, options, disabled = false }) => {
   return (
     <div>
-      <label htmlFor={name} className="block font-medium mb-2">
+      <label htmlFor={name} className="block mb-2">
         {label}
       </label>
       <Field
@@ -12,18 +17,17 @@ const SelectForm = ({ name, label, options, disabled }) => {
         className="select select-bordered w-full max-w-xs"
         disabled={disabled}
       >
-        <option disabled value="">Select an option</option>
+        <option disabled value="">
+          Select an option
+        </option>
         {options.map((option, index) => (
           <option key={index} value={option.value}>
             {option.label}
           </option>
         ))}
       </Field>
-      <ErrorMessage
-        name={name}
-        component="div"
-        className="mt-2 text-s text-red-400"
-      />
+
+      <ErrorForm name={name} />
     </div>
   )
 }

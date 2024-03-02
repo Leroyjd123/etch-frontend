@@ -1,34 +1,35 @@
 import { useEffect } from "react"
-import AddNote from "../components/AddNote"
-import Navbar from "../components/NavBar"
+import { useDispatch } from "react-redux"
+
 import { asyncSetUser } from "../actions/userActions"
 import { asyncSetQuestions } from "../actions/questionsActions"
-import { useDispatch } from "react-redux"
-import QuoteCard from "../components/QuoteCard"
+import AddNote from "../appComponents/AddNote"
+import QuoteCard from "../appComponents/QuoteCard"
 
+/**
+ * DashboardPage component serves as the landing page for authenticated users displaying quick links for adding notes and reflecting, alongside inspirational quotes.
+ */
 const DashboardPage = () => {
   const dispatch = useDispatch()
+
   useEffect(() => {
+    // Fetches user and questions data on component mount
     dispatch(asyncSetUser())
     dispatch(asyncSetQuestions())
-    console.log("refreshed")
-  }, [])
+  }, [dispatch])
 
   return (
     <div>
       <h1 className="text-lg font-semibold">Dashboard</h1>
-
       <QuoteCard />
 
-      <div className="m-5 flex flex-col md:flex-row justify-center items-center gap-3 ">
-        {/* 
-          //Need to think about how to work with this
-          <AddNote
-            header="Got a Quick Thought?"
-            link="/quicknote"
-            buttonText="Add Note"
-            description="Capture fleeting ideas, to-dos, or any spark of inspiration in a moment. Perfect for when you're on the go."
-          /> */}
+      <div className="m-5 flex flex-col md:flex-row justify-center items-center gap-3">
+        {/* <AddNote
+          header="Got a Quick Thought?"
+          link="/quicknote"
+          buttonText="Add Note"
+          description="Capture fleeting ideas, to-dos, or any spark of inspiration in a moment. Perfect for when you're on the go."
+        /> */}
 
         <AddNote
           header="How was Your Day?"

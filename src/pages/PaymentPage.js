@@ -1,62 +1,62 @@
 import React, { useState } from "react"
 import { loadStripe } from "@stripe/stripe-js"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 
-const publishableKey =
-  "pk_test_51OOWCFSFbky3SrYenN7Tk8CyB5usRT3U25RVY84AiUTBmSLfieqd2ygWctEGFriOLG7UHSb9ItYHyFd1c48aPOfG00Bl7cnwfw"
+//FIXME: WORK IN PROGRESS
+// const publishableKey = process.env.STRIPE_PUBLIC_KEY
+const publishableKey = "123"
 
 function PaymentPage() {
+
   const [product, setProduct] = useState({
     name: "Etch Journal App",
-    price: 1000, // Updated price
+    price: 1000,
     productOwner: "Your Company Name",
     description:
       "Unlock premium features including better metrics and more storage with Etch Journal App.",
     quantity: 1,
-    paymentType: "one-time", // Default payment type
+    paymentType: "one-time",
   })
+
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const makePayment = async () => {
     const stripe = await loadStripe(publishableKey)
-    // Include paymentType in the body
-    const body = {
-      product,
-      paymentType: product.paymentType,
-    }
-    const headers = {
-      "Content-Type": "application/json",
-    }
+    const body = { product }
+    const headers = { "Content-Type": "application/json" }
 
-    const response = await fetch(
-      "http://localhost:3999/api/create-checkout-session",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
+    try {
+      const response = await fetch(
+        "http://localhost:3999/api/create-checkout-session",
+        {
+          method: "POST",
+          headers,
+          body: JSON.stringify(body),
+        }
+      )
+      const session = await response.json()
+      const result = await stripe.redirectToCheckout({ sessionId: session.id })
+
+      if (result.error) {
+        console.error(result.error.message)
       }
-    )
-
-    const session = await response.json()
-
-    const result = await stripe.redirectToCheckout({
-      sessionId: session.id,
-    })
-
-    if (result.error) {
-      console.log(result.error)
+    } catch (error) {
+      console.error("Payment error:", error.message)
     }
   }
 
-  // Function to toggle between one-time and subscription
   const togglePaymentType = () => {
-    setProduct({
-      ...product,
+    setProduct((prevProduct) => ({
+      ...prevProduct,
       paymentType:
-        product.paymentType === "one-time" ? "subscription" : "one-time",
-    })
+        prevProduct.paymentType === "one-time" ? "subscription" : "one-time",
+    }))
   }
 
   return (
-    <div className="flex m-5 self-center">
+    <div className="flex flex-col items-center m-5">
       <div className="card w-96 bg-base-100 shadow-xl">
         <figure>
           <img

@@ -1,6 +1,11 @@
-import { Field, ErrorMessage } from "formik"
+import { Field } from "formik"
+import ErrorForm from "./ErrorForm"
 
-const InputForm = ({ name, label, type, disabled, placeholder }) => {
+/**
+ * InputForm - A reusable input component for forms using Formik.
+ */
+
+const InputForm = ({ name, label, type, disabled = false, placeholder }) => {
   return (
     <div>
       <label htmlFor={name} className="block mb-2">
@@ -9,15 +14,13 @@ const InputForm = ({ name, label, type, disabled, placeholder }) => {
       <Field
         type={type}
         name={name}
+        id={name}
         className="input input-bordered w-full input-primary"
         disabled={disabled}
         placeholder={placeholder}
       />
-      <ErrorMessage
-        name={name}
-        component="div"
-        className="mt-2 text-s text-red-400"
-      />
+
+      <ErrorForm name={name} />
     </div>
   )
 }

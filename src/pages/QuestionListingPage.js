@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { useState } from "react"
 
-import QuestionPopup from "../components/QuestionPopup"
+import QuestionPopup from "../appComponents/QuestionPopup"
 import QuestionRow from "./QuestionRow"
 
 const QuestionListingPage = () => {
@@ -15,18 +15,24 @@ const QuestionListingPage = () => {
   }
 
   const addQuestion = () => {
-    setSelectedQuestion(null) 
+    setSelectedQuestion(null)
     setIsModalOpen(true)
+    const modal = document.getElementById("QuestionModal")
+
+    modal.showModal()
   }
 
   const closeModal = () => {
     setIsModalOpen(false)
-      }
+  }
 
   return (
     <>
-        <h1 className="text-lg font-semibold">Question Listing</h1>
-      <button className="btn hidden md:inline-block" onClick={addQuestion}>
+      <h1 className="text-lg font-semibold">Question Listing</h1>
+      <button
+        className="btn btn-primary hidden md:inline-block"
+        onClick={addQuestion}
+      >
         Add Question
       </button>
 
@@ -64,10 +70,10 @@ const QuestionListingPage = () => {
         {questions.map((question, index) => (
           <div key={question._id} className="collapse collapse-plus mb-2">
             <input type="checkbox" className="peer" />
-            <div className="collapse-title bg-white">
+            <div className="collapse-title bg-accent">
               {++index}. {question.name}
             </div>
-            <div className=" collapse-content bg-white gap-2">
+            <div className=" collapse-content bg-accent gap-2">
               <p className="text-sm mb-2">{question.label}</p>
               <div className="flex flex-wrap gap-2">
                 {question.tags.map((tag, tagIndex) => (

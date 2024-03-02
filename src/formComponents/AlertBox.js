@@ -2,15 +2,17 @@ import { useState, useEffect } from "react"
 
 const AlertBox = ({ type, message }) => {
   const [isVisible, setIsVisible] = useState(false)
+
   useEffect(() => {
     setIsVisible(true)
 
+    // Automatically hide the alert after 2000ms (2 seconds)
     const timer = setTimeout(() => {
       setIsVisible(false)
     }, 2000)
 
     return () => clearTimeout(timer)
-  }, [])
+  }, [type, message])
 
   const alertTypes = {
     success: {
@@ -28,7 +30,7 @@ const AlertBox = ({ type, message }) => {
       className: "alert alert-warning",
       iconPath:
         "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
-      defaultMsg: "This is warning!",
+      defaultMsg: "This is a warning!",
     },
     info: {
       className: "alert alert-info",
@@ -38,7 +40,7 @@ const AlertBox = ({ type, message }) => {
     },
   }
 
-  const alert = alertTypes[type]
+  const alert = alertTypes[type] || {} // Fallback to an empty object to prevent undefined errors
 
   return isVisible ? (
     <div
@@ -54,13 +56,9 @@ const AlertBox = ({ type, message }) => {
         className="stroke-current shrink-0 h-6 w-6"
         fill="none"
         viewBox="0 0 24 24"
+        strokeWidth="2"
       >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d={alert.iconPath}
-        />
+        <path strokeLinecap="round" strokeLinejoin="round" d={alert.iconPath} />
       </svg>
       <span>{message || alert.defaultMsg}</span>
     </div>
