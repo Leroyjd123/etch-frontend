@@ -48,7 +48,7 @@ const LoginPage = () => {
     <>
       <div className="m-5 flex flex-col md:flex-row justify-center items-center md:h-screen  my-24">
         <div className="flex flex-col items-center w-full max-w-xs md:w-1/2 md:max-w-md md:mr-8 mb-8">
-          <img src={logo} alt="Logo" className="mx-auto w-24 mb-4" />
+          <img src={logo} alt="Logo" className="mx-auto w-24 mb-4 fill-blue-500" />
           <h1 className="text-xl mb-2">Etch Journal</h1>
           <p>A simple journal to etch down your thoughts</p>
         </div>
