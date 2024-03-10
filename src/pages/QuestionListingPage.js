@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 import QuestionPopup from "../appComponents/QuestionPopup"
 import QuestionRow from "./QuestionRow"
 
 const QuestionListingPage = () => {
   const questions = useSelector((state) => state.questions)
+  const user = useSelector((state) => state.user)
+
   const [selectedQuestion, setSelectedQuestion] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
@@ -17,9 +19,12 @@ const QuestionListingPage = () => {
   const addQuestion = () => {
     setSelectedQuestion(null)
     setIsModalOpen(true)
-    const modal = document.getElementById("QuestionModal")
 
-    modal.showModal()
+    const modal = document.getElementById("QuestionModal")
+    if (modal) {
+      modal.showModal()
+    }
+    console.log("modal", modal) // 
   }
 
   const closeModal = () => {
@@ -29,12 +34,14 @@ const QuestionListingPage = () => {
   return (
     <>
       <h1 className="text-lg font-semibold">Question Listing</h1>
-      <button
-        className="btn btn-primary hidden md:inline-block"
-        onClick={addQuestion}
-      >
-        Add Question
-      </button>
+      {user.userType === "admin" && (
+        <button
+          className="btn btn-primary hidden md:inline-block"
+          onClick={addQuestion}
+        >
+          Add Question
+        </button>
+      )}
 
       {isModalOpen && (
         <QuestionPopup question={selectedQuestion} onClose={closeModal} />
@@ -51,7 +58,7 @@ const QuestionListingPage = () => {
               <th>Input Type</th>
               <th>Options</th>
               <th>Tags</th>
-              <th>Actions</th>
+              {user.userType === "admin" && <th>Actions</th>}
             </tr>
           </thead>
           <tbody>
@@ -61,6 +68,7 @@ const QuestionListingPage = () => {
                 question={question}
                 index={index}
                 onEdit={handleEdit}
+                userType={user.userType}
               />
             ))}
           </tbody>

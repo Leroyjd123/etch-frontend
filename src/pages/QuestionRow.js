@@ -3,11 +3,12 @@ import { asyncDeleteQuestion } from "../actions/questionsActions"
 import EditIcon from "../assets/EditIcon"
 import DeleteIcon from "../assets/DeleteIcon"
 
-const QuestionRow = ({ question, index }) => {
+const QuestionRow = ({ question, index, userType }) => {
   const dispatch = useDispatch()
 
   const handleEdit = () => {
     const modal = document.getElementById("QuestionModal")
+    console.log("modal edit", modal)
     if (modal) {
       modal.showModal()
     }
@@ -29,17 +30,22 @@ const QuestionRow = ({ question, index }) => {
       <td>{question.inputType}</td>
       <td>{question.options.join(", ")}</td>
       <td>{question.tags.join(", ")}</td>
-      <td>
-        <div className="flex gap-1">
-          <button onClick={handleEdit} className="btn btn-secondary btn-square">
-            <EditIcon height={4} width={4} />
-          </button>
+      {userType === "admin" && (
+        <td>
+          <div className="flex gap-1">
+            <button
+              onClick={handleEdit}
+              className="btn btn-secondary btn-square"
+            >
+              <EditIcon height={4} width={4} />
+            </button>
 
-          <button className="btn btn-error btn-square" onClick={handleDelete}>
-            <DeleteIcon height={4} width={4} />
-          </button>
-        </div>
-      </td>
+            <button className="btn btn-error btn-square" onClick={handleDelete}>
+              <DeleteIcon height={4} width={4} />
+            </button>
+          </div>
+        </td>
+      )}
     </tr>
   )
 }

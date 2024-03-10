@@ -40,7 +40,7 @@ const AnswerListingPage = () => {
         onChange={setSelectedDate}
         value={selectedDate}
       />
-      <h1 className="mt-4 mb-2">
+      <h1 className="mt-4 mb-2 text-lg font-semibold">
         Your answers on {moment(selectedDate).format("MMMM Do, YYYY")}
       </h1>
       {filteredAnswers.length > 0 ? (

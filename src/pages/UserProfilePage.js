@@ -25,6 +25,7 @@ const UserProfilePage = () => {
     firstName: user?.firstName || "",
     lastName: user?.lastName || "",
     emailAddress: user?.emailAddress || "",
+    userType: user?.userType || "",
   }
 
   const validationSchema = Yup.object({
@@ -82,6 +83,13 @@ const UserProfilePage = () => {
                 name="emailAddress"
                 label="Email Address"
                 type="email"
+                disabled
+              />
+
+              <InputForm
+                name="userType"
+                label="User Type"
+                type="text"
                 disabled
               />
 

@@ -3,8 +3,8 @@ import axios from "axios"
 
 // Configuration for the Axios instance
 const port = 3999
-const baseURL = `http://localhost:${port}`
-
+const baseURL = `${process.env.REACT_APP_BACKEND_URL}`
+console.log(baseURL)
 // Creating an Axios instance with default configuration
 const axiosInstance = axios.create({
   baseURL, // Setting the base URL for all requests
