@@ -27,6 +27,7 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
 
   // Filter or randomize questions based on component props
   useEffect(() => {
+    console.log("questions", questionList)
     let filteredQuestions = questionList.filter((question) =>
       question.tags.includes(tagFilter)
     )
@@ -56,10 +57,11 @@ const JournalForm = ({ mode, tagFilter, randomizeQuestions }) => {
 
   // Handle adding more questions
   const addQuestion = () => {
-    if (user.userType !== "subscribedUser") {
-      alert("Please purchase a subscription to add more questions.")
-      return
-    }
+    //TODO: To be implemented once payments module is enabled
+    // if (user.userType !== "subscribedUser") {
+    //   alert("Please purchase a subscription to add more questions.")
+    //   return
+    // }
 
     const notIncludedQuestions = questionList.filter(
       (question) =>
